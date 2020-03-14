@@ -94,8 +94,7 @@ class SixMensMorris():
             self.board.print_board()
 
             ### TODO
-            if self.num_play >= 11 and (self.check_win(player) or self.check_win(self.opponent(player))):
-                #print("num_play", self.num_play)
+            if self.num_play >= 12 and (self.check_win(player) or self.check_win(self.opponent(player))):
                 end = True
             else:
                 if self.board.form_mill(x, player):
@@ -105,7 +104,7 @@ class SixMensMorris():
                     player.next_remove(self.opponent(player))
                     self.board.print_board()
                 
-                if self.num_play >= 11 and (self.check_win(player) or self.check_win(self.opponent(player))):
+                if self.num_play >= 12 and (self.check_win(player) or self.check_win(self.opponent(player))):
                     end = True
 
 if __name__ == '__main__':

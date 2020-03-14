@@ -2,7 +2,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class Soldier {
-  private int health;
+  protected int health;
   private int numElixirs;
   private Pos pos;
   private HashSet<Integer> keys;

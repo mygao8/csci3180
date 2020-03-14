@@ -157,8 +157,10 @@ class Board():
         num_pieces = 0
 
         ### TODO (check every position to calculate the number of pieces for the player)
+        oppo = '#' if player.get_symbol()=='@' else '@'
+
         for symbol in self.state:
-            if symbol == opponent.get_symbol():
+            if symbol == oppo:
                 num_pieces += 1
 
         if num_pieces <= 2: 
@@ -170,7 +172,7 @@ class Board():
 
             can_move = False
             for i in range(len(self.state)):
-                if self.state[i] == opponent.get_symbol():
+                if self.state[i] == oppo:
                     piece_can_move = False
                     for j, k in self.edges:
                         ### TODO (check every edge to check whether there is a legal move)

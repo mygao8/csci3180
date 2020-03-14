@@ -1,63 +1,66 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class SaveTheTribe {
-  private Map map;
-  private Soldier soldier;
+public class Task4SaveTheTribe {
+  private Task4Map map;
+  private Task4Soldier soldier;
   private Spring spring;
-  private Monster[] monsters;
-
+  private Task4Monster[] monsters;
+  private Merchant merchant;
+  
   private boolean gameEnabled;
   
-  public SaveTheTribe() {
-    this.map = new Map();
-    this.soldier = new Soldier();
+  public Task4SaveTheTribe() {
+    this.map = new Task4Map();
+    this.soldier = new Task4Soldier();
     this.spring = new Spring();
-    this.monsters = new Monster[7];
+    this.monsters = new Task4Monster[7];
+    this.merchant = new Merchant();
     this.gameEnabled = true;
   }
 
-  public void initialize() {
+
+public void initialize() {
     /* We use the integer 1-7 to represent the keys for corresponding caves, and the integer -1 to represent the artifact. */
 
     Random random = new Random();
 
-    this.monsters[0] = new Monster(1, random.nextInt(5) * 10 + 30);
+    this.monsters[0] = new Task4Monster(1, random.nextInt(5) * 10 + 30);
     this.monsters[0].setPos(4, 1);
     this.monsters[0].addDropItem(2);
     this.monsters[0].addDropItem(3);
  
-    this.monsters[1] = new Monster(2, random.nextInt(5) * 10 + 30);
+    this.monsters[1] = new Task4Monster(2, random.nextInt(5) * 10 + 30);
     this.monsters[1].setPos(3, 3);
     this.monsters[1].addDropItem(3);
     this.monsters[1].addDropItem(6);
     this.monsters[1].addHint(1);
     this.monsters[1].addHint(5);
 
-    this.monsters[2] = new Monster(3, random.nextInt(5) * 10 + 30);
+    this.monsters[2] = new Task4Monster(3, random.nextInt(5) * 10 + 30);
     this.monsters[2].setPos(5, 3);
     this.monsters[2].addDropItem(4);
     this.monsters[2].addHint(1);
     this.monsters[2].addHint(2);
 
-    this.monsters[3] = new Monster(4, random.nextInt(5) * 10 + 30);
+    this.monsters[3] = new Task4Monster(4, random.nextInt(5) * 10 + 30);
     this.monsters[3].setPos(5, 5);
     this.monsters[3].addHint(3);
     this.monsters[3].addHint(6);
 
-    this.monsters[4] = new Monster(5, random.nextInt(5) * 10 + 30);
+    this.monsters[4] = new Task4Monster(5, random.nextInt(5) * 10 + 30);
     this.monsters[4].setPos(1, 4);
     this.monsters[4].addDropItem(2);
     this.monsters[4].addDropItem(6);
 
-    this.monsters[5] = new Monster(6, random.nextInt(5) * 10 + 30);
+    this.monsters[5] = new Task4Monster(6, random.nextInt(5) * 10 + 30);
     this.monsters[5].setPos(3, 5);
     this.monsters[5].addDropItem(4);
     this.monsters[5].addDropItem(7);
     this.monsters[5].addHint(2);
     this.monsters[5].addHint(5);
 
-    this.monsters[6] = new Monster(7, random.nextInt(5) * 10 + 30);
+    this.monsters[6] = new Task4Monster(7, random.nextInt(5) * 10 + 30);
     this.monsters[6].setPos(4, 7);
     this.monsters[6].addDropItem(-1);
     this.monsters[6].addHint(6);
@@ -73,6 +76,10 @@ public class SaveTheTribe {
     this.spring.setPos(7, 4);
 
     this.map.addObject(this.spring);
+    
+    this.merchant.setPos(7, 7);
+    
+    this.map.addObject(this.merchant);
   }
 
   public void start() {
@@ -112,10 +119,12 @@ public class SaveTheTribe {
       if (this.map.checkMove(newRow, newColumn)) {
         Object occupiedObject = this.map.getOccupiedObject(newRow, newColumn);
 
-        if (occupiedObject instanceof Monster) {
-          ((Monster)occupiedObject).actionOnSoldier(this.soldier);
+        if (occupiedObject instanceof Task4Monster) {
+          ((Task4Monster)occupiedObject).actionOnSoldier(this.soldier);
         } else if (occupiedObject instanceof Spring) {
           ((Spring)occupiedObject).actionOnSoldier(this.soldier);
+        } else if (occupiedObject instanceof Merchant) {
+            ((Merchant)occupiedObject).actionOnSoldier(this.soldier);
         } else {
           this.soldier.move(newRow, newColumn);
           this.map.update(this.soldier, oldRow, oldColumn, newRow, newColumn);
@@ -141,7 +150,7 @@ public class SaveTheTribe {
   }
 
   public static void main(String[] args) {
-    SaveTheTribe game = new SaveTheTribe();
+    Task4SaveTheTribe game = new Task4SaveTheTribe();
     game.initialize();
     game.start();
   }

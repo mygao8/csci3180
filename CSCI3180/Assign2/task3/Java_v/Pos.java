@@ -17,6 +17,7 @@ public class Pos {
   }
 
   public int getRow() {
+	System.out.println("in Pos"+row);
     return this.row;
   }
 

@@ -30,9 +30,7 @@ class Human(Player):
         valid_flag = True
         while valid_flag:
             x = input('{} [Put] (pos): '.format( \
-                g('Player 1') if self.id == 1 else b('Player 2')))
-            print("player input:", x,"|end of input")
-            x=x.lower().strip()
+                g('Player 1') if self.id == 1 else b('Player 2'))).lower().strip()
             if len(x) != 1:
                 print('Invalid Put-Movement.')
             else:
