@@ -14,7 +14,7 @@
 
 from Pos import Pos
 
-class Merchant():
+class Task4Merchant():
     def __init__(self):
         self.elixir_price = 1
         self.shield_price = 2

@@ -1,7 +1,7 @@
-public class Task4Map {
+public class Map {
   private Cell[][] cells;
 
-  public Task4Map() {
+  public Map() {
     this.cells = new Cell[7][7];
     for (int i = 0; i < 7; i++) {
       for (int j = 0; j < 7; j++) {
@@ -24,8 +24,6 @@ public class Task4Map {
         pos = ((Soldier)object).getPos();
       } else if (object instanceof Spring) {
         pos = ((Spring)object).getPos();
-      } else if (object instanceof Task4Merchant) {
-    	pos = ((Task4Merchant)object).getPos();
       }
 
       if (pos != null) {
@@ -50,8 +48,6 @@ public class Task4Map {
             ((Spring)occupiedObject).displaySymbol();
           } else if (occupiedObject instanceof Soldier) {
             ((Soldier)occupiedObject).displaySymbol();
-          } else if (occupiedObject instanceof Task4Merchant) {
-             ((Task4Merchant)occupiedObject).displaySymbol();
           }
           System.out.printf(" |");
         } else {

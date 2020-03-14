@@ -13,59 +13,57 @@
 # Email Addr : 1155107738@link.cuhk.edu.hk
 
 from Map import Map 
-from Task4Soldier import Task4Soldier 
+from Soldier import Soldier 
 from Spring import Spring 
-from Task4Monster import Task4Monster
-from Task4Merchant import Task4Merchant
+from Monster import Monster 
 import random
 
-class Task4SaveTheTribe():
+class SaveTheTribe():
     def __init__(self):
         self.__map = Map()
-        self.__soldier = Task4Soldier()
+        self.__soldier = Soldier()
         self.__spring = Spring()
         self.__monsters = [None for i in range(7)]
-        self.__merchant = Task4Merchant()
         self.__game_enabled = True
 
     def initialize(self):
         # 1-7 represent keys for correspoding caves, -1 for artifact
-        self.__monsters[0] = Task4Monster(1, random.randint(3, 7) * 10) 
+        self.__monsters[0] = Monster(1, random.randint(3, 7) * 10) 
         self.__monsters[0].set_pos(4, 1) 
         self.__monsters[0].add_drop_item(2) 
         self.__monsters[0].add_drop_item(3) 
     
-        self.__monsters[1] = Task4Monster(2, random.randint(3, 7) * 10) 
+        self.__monsters[1] = Monster(2, random.randint(3, 7) * 10) 
         self.__monsters[1].set_pos(3, 3) 
         self.__monsters[1].add_drop_item(3) 
         self.__monsters[1].add_drop_item(6) 
         self.__monsters[1].add_hint(1) 
         self.__monsters[1].add_hint(5) 
 
-        self.__monsters[2] = Task4Monster(3, random.randint(3, 7) * 10) 
+        self.__monsters[2] = Monster(3, random.randint(3, 7) * 10) 
         self.__monsters[2].set_pos(5, 3) 
         self.__monsters[2].add_drop_item(4) 
         self.__monsters[2].add_hint(1) 
         self.__monsters[2].add_hint(2) 
 
-        self.__monsters[3] = Task4Monster(4, random.randint(3, 7) * 10) 
+        self.__monsters[3] = Monster(4, random.randint(3, 7) * 10) 
         self.__monsters[3].set_pos(5, 5) 
         self.__monsters[3].add_hint(3) 
         self.__monsters[3].add_hint(6) 
 
-        self.__monsters[4] = Task4Monster(5, random.randint(3, 7) * 10) 
+        self.__monsters[4] = Monster(5, random.randint(3, 7) * 10) 
         self.__monsters[4].set_pos(1, 4) 
         self.__monsters[4].add_drop_item(2) 
         self.__monsters[4].add_drop_item(6) 
 
-        self.__monsters[5] = Task4Monster(6, random.randint(3, 7) * 10) 
+        self.__monsters[5] = Monster(6, random.randint(3, 7) * 10) 
         self.__monsters[5].set_pos(3, 5) 
         self.__monsters[5].add_drop_item(4) 
         self.__monsters[5].add_drop_item(7) 
         self.__monsters[5].add_hint(2) 
         self.__monsters[5].add_hint(5) 
 
-        self.__monsters[6] = Task4Monster(7, random.randint(3, 7) * 10) 
+        self.__monsters[6] = Monster(7, random.randint(3, 7) * 10) 
         self.__monsters[6].set_pos(4, 7) 
         self.__monsters[6].add_drop_item(-1) 
         self.__monsters[6].add_hint(6) 
@@ -80,11 +78,7 @@ class Task4SaveTheTribe():
 
         self.__spring.set_pos(7, 4) 
 
-        self.__map.add_object(self.__spring)
-        
-        self.__merchant.set_pos(7, 7)
-
-        self.__map.add_object(self.__merchant)
+        self.__map.add_object(self.__spring) 
 
     def start(self):
         print("=> Welcome to the desert!")
@@ -139,6 +133,6 @@ class Task4SaveTheTribe():
                 
 
 if __name__ == "__main__":
-    game = Task4SaveTheTribe()
+    game = SaveTheTribe()
     game.initialize()
     game.start()
