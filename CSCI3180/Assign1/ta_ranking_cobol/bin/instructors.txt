@@ -1,0 +1,4 @@
+1020 C++            C              Word           Excel          PowerPoint     Assembly       Linux          Shell script   
+1110 C++            Java           Word           Excel          Cantonese      Assembly       Linux          Shell script   
+3150 C              Assembly       Linux          Shell          Rust           Golang         Cantonese      Guitar         
+3180 COBOL          Prolog         FORTRAN        Java           Python         Cantonese      Table-tennis   Football       

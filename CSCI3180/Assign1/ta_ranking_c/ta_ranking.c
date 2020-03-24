@@ -90,24 +90,6 @@ float calculate(char *course, char required[][16], char optional[][16], char ski
     return score;
 }
 
-// void addResult(struct result *result, unsigned int sid, float score){
-//     if (score == 0){
-//         return;
-//     }
-
-//     /*** satisfiy required skills ***/
-//     if (resultScores[2] <= score){
-//         if (resultScores[2] == score){
-//             if (sid < resultSid[2]){
-//                 resultScores[2] = score;
-//             }
-//         }
-//         else if (score >= resultScores[1])
-//         // sort
-
-//     }
-// }
-
 void addRes(struct result *result, unsigned int sid, float score){
     int i, j;
     // keep the pointer to last struct
