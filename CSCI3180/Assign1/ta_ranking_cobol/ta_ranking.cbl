@@ -17,7 +17,7 @@
              ORGANIZATION IS LINE SEQUENTIAL
              FILE STATUS IS INPUT-CANDIDATE-STATUS.
            SELECT OUTPUT-FILE ASSIGN TO 'output1.txt'
-             ORGANIZATION IS LINE SEQUENTIAL.
+             ORGANIZATION IS BINARY SEQUENTIAL.
 
        DATA DIVISION.
        FILE SECTION.
@@ -30,7 +30,8 @@
                05 OPTIONAL-SKILL PIC X(15) OCCURS 5 TIMES.
        FD INPUT-CANDIDATE.
        01 TA-DATA-TABLE.
-           03 SID PIC 9(11).
+           03 SID PIC 9(10).
+           03 TRASH-SPACE PIC A(1).
            03 SKILLS-TABLE.
                05 SKILL PIC X(15) OCCURS 8 TIMES.
            03 PREFER-TABLE.
@@ -54,15 +55,16 @@
            03 WS-OPTIONAL-TABLE.
              05 WS-OPTIONAL-SKILL PIC X(15) OCCURS 5 TIMES VALUES SPACE.
        01 WS-TA-DATA.
-           03 WS-SID PIC 9(11) VALUES ZERO.
+           03 WS-SID PIC 9(10) VALUES ZERO.
+           03 WS-TRASH-SPACE PIC A(1).
            03 WS-SKILLS-TABLE.
                05 WS-SKILL PIC X(15) OCCURS 8 TIMES VALUES SPACE.
            03 WS-PREFER-TABLE.
                05 WS-PREFER PIC X(5) OCCURS 3 TIMES VALUES ZERO.
 
-       01 WS-TA-SCORE-TABLE.
-           03 WS-TA-SCORE OCCURS 3 TIMES.
-               05 WS-SCORE PIC 9V9 VALUES ZERO.
+       01 WS-TOP-TA-TABLE.
+           03 WS-TOP-TA OCCURS 3 TIMES.
+               05 WS-RES-SCORE PIC 9V9 VALUES ZERO.
                05 WS-RES-SID PIC 9(10) VALUES ZERO.
        01 WS-RANK-RESULT VALUES SPACE.
            03 WS-RES-COURSE PIC X(5).
@@ -85,6 +87,7 @@
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
            OPEN INPUT INPUT-INSTRUCTOR.
+           OPEN OUTPUT OUTPUT-FILE.
 
            OUTER-LOOP.
            READ INPUT-INSTRUCTOR INTO WS-COURSE-DATA
@@ -93,15 +96,17 @@
            END-READ.
 
            IF WS-EOF-INSTRUCTOR NOT = 'Y'
+               MOVE ZERO TO WS-TOP-TA-TABLE
                OPEN INPUT INPUT-CANDIDATE
                MOVE 'N' TO WS-EOF-CANDIDATE
                PERFORM LOOP
                CLOSE INPUT-CANDIDATE
+               PERFORM WRITE-TO-FILE
                GO TO OUTER-LOOP
            END-IF.
 
            CLOSE INPUT-INSTRUCTOR.
-
+           CLOSE OUTPUT-FILE.
        STOP RUN.
 
        LOOP.
@@ -110,9 +115,12 @@
       *    >      NOT AT END DISPLAY WS-TA-DATA
            END-READ.
 
-               IF WS-EOF-CANDIDATE NOT = 'Y'
+           IF WS-EOF-CANDIDATE NOT = 'Y'
                PERFORM CALCULATE
                DISPLAY WS-COURSE WS-SID CUR-SCORE
+
+               PERFORM ADD-RES
+               DISPLAY WS-TOP-TA-TABLE
                GO TO LOOP
            END-IF.
 
@@ -190,3 +198,51 @@
            ADD 1 TO I
            GO TO PREFER-LOOP
            END-IF.
+
+       ADD-RES.
+           PERFORM INSERT-SORT.
+           PERFORM MOVE-CUR.
+
+
+       INSERT-SORT.
+           MOVE 3 TO I.
+           PERFORM FIND-POS-LOOP.
+
+      *>  FIND THE POS WHERE CUR-TA SHOULD BE INSERTED IN
+       FIND-POS-LOOP.
+           IF I>=1
+               IF CUR-SCORE > WS-RES-SCORE(I)
+                   SUBTRACT 1 FROM I
+                   GO TO FIND-POS-LOOP
+               END-IF.
+               IF CUR-SCORE = WS-RES-SCORE(I)
+                   IF WS-SID < WS-RES-SID(I)
+                       SUBTRACT 1 FROM I
+                       GO TO FIND-POS-LOOP
+               END-IF.
+
+      *>  the i-th has higher priority than new
+       MOVE-CUR.
+           MOVE 2 TO J.
+           PERFORM MOVE-ARRAY-LOOP.
+           IF I + 1 <= 3
+      *>       SET A NEW WS-TOP-TA STRUCT WITH CUR-SID AND CUR-SCORE
+               MOVE WS-SID TO WS-RES-SID(I + 1)
+               MOVE CUR-SCORE TO WS-RES-SCORE(I + 1)
+           END-IF.
+
+       MOVE-ARRAY-LOOP.
+           IF J >= I + 1
+               MOVE WS-TOP-TA(J) TO WS-TOP-TA(J + 1)
+               SUBTRACT 1 FROM J
+               GO TO MOVE-ARRAY-LOOP
+           END-IF.
+
+       WRITE-TO-FILE.
+           MOVE WS-COURSE TO RES-COURSE.
+           MOVE WS-RES-SID(1) TO RANK1.
+           MOVE WS-RES-SID(2) TO RANK2.
+           MOVE WS-RES-SID(3) TO RANK3.
+           MOVE x'0a' TO EOL.
+           WRITE RANK-RESULT
+           END-WRITE.
