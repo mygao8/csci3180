@@ -3,4 +3,4 @@
 1155134206 COBOL          Prolog         FORTRAN        Java           Python         Japanese       Table-tennis   Football       2110 3180 3320 
 1155134624 C++            C              Word           Excel          PowerPoint     Assembly       Linux          Shell script   1020 3150 2102 
 1155136773 COBOL          Prolog         FORTRAN        Java           Python         Cantonese      Table-tennis   Football       3180 3320 1110 
-1155147332 C++            C              Word           Excel          PowerPoint     Cantonese      Rust           Football       3180 3150 1020 
+1155147332 C++            C                             Excel          PowerPoint     Cantonese      Rust           Football       3180 3150 1020 

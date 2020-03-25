@@ -86,6 +86,8 @@
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
+           PERFORM ERROR-HANDLING.
+
            OPEN INPUT INPUT-INSTRUCTOR.
            OPEN OUTPUT OUTPUT-FILE.
 
@@ -117,10 +119,7 @@
 
            IF WS-EOF-CANDIDATE NOT = 'Y'
                PERFORM CALCULATE
-               DISPLAY WS-COURSE WS-SID CUR-SCORE
-
                PERFORM ADD-RES
-               DISPLAY WS-TOP-TA-TABLE
                GO TO LOOP
            END-IF.
 
@@ -246,3 +245,22 @@
            MOVE x'0a' TO EOL.
            WRITE RANK-RESULT
            END-WRITE.
+
+       ERROR-HANDLING.
+           OPEN INPUT INPUT-INSTRUCTOR.
+           IF INPUT-INSTRUCTOR-STATUS = 05
+               DISPLAY "non-existing file!"
+               CLOSE INPUT-INSTRUCTOR
+               STOP RUN
+           END-IF.
+           CLOSE INPUT-INSTRUCTOR.
+
+           OPEN INPUT INPUT-CANDIDATE.
+           IF INPUT-CANDIDATE-STATUS = 05
+               DISPLAY "non-existing file!"
+               CLOSE INPUT-CANDIDATE
+               STOP RUN
+           END-IF.
+
+           CLOSE INPUT-INSTRUCTOR.
+           CLOSE INPUT-CANDIDATE.

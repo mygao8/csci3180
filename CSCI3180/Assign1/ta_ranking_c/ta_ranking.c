@@ -23,17 +23,9 @@ void storeInfo(char *line, char *course, int len, char required[][16], char opti
         memcpy(&required[i][0], &line[len+1 + i*15], 15);
     }
 
-    for (i = 0; i < 3; i++){
-        //printf("%s\n", &required[i][0]);
-    }
-
     // store optional skills
     for (i = 0; i < 5; i++){
         memcpy(optional[i], (line + len+1 + 3*15) + i * 15, 15);
-    }
-
-    for (i = 0; i < 5; i++){
-        //printf("%s\n", optional[i]);
     }
 
     // store preferences
@@ -63,7 +55,7 @@ float calculate(char *course, char required[][16], char optional[][16], char ski
         }
     }
     score += 1;
-
+  
     // add score for optional skills
     for (i = 0; i < 5; i++){
         flag = 0;
@@ -77,7 +69,7 @@ float calculate(char *course, char required[][16], char optional[][16], char ski
             // find a satisfied optional skill
             score += 1;
         }
-    }    
+    }
 
     // add score for preferences
     for (i = 0; i < 3; i++){
@@ -94,8 +86,6 @@ void addRes(struct result *result, unsigned int sid, float score){
     int i, j;
     // keep the pointer to last struct
 
-    printf("new %d %f\n", sid, score);
-
     // construct a new result structure for course[i] and candidate[j]
     struct result new;
     new.sid = sid;
@@ -103,7 +93,6 @@ void addRes(struct result *result, unsigned int sid, float score){
     
     // insert sort
     for (i = 2; i >= 0; i--){
-        printf("i: %d\n", i);
         if (new.score < result[i].score || (new.score == result[i].score && new.sid > result[i].sid)){
             break;
         }
@@ -138,7 +127,6 @@ void output(char* course, FILE *fd, struct result *res){
 }
 
 int main(){
-    int empty = 1;
     char buf[256];
 
     char course[5];
@@ -174,14 +162,12 @@ int main(){
             break;
         }
         else{
-            empty = 0;
             /*** read from instructors.txt ***/
 
             // required[i][14] == optional[i][14] == ' '
             // required[i][15] == optional[i][15] == '\0'
             // len(course) = 4
             storeInfo(buf, course, 4, required, optional, NULL);
-            printf("outer course:%s\n", course);
 
             /*** read from candidates.txt ***/
             float score;
@@ -198,22 +184,12 @@ int main(){
                     storeInfo(buf, strSid, 10, skills, &skills[3], prefer);
                     sid = atoi(strSid);
                     score = calculate(course, required, optional, skills, prefer);
-                    // printf("%f\n", score);
-                    printf("course: %s, sid: %d, score: %f\n", course, sid, score);
+
                     // add score into result
                     addRes(result, sid, score);
-                    for (int i = 0; i < 3; i++){
-                        printf("%d %f\n", result[i].sid, result[i].score);
-                    }
                 }
             }
         }
-        printf("\nend a loop, courses: %s\n", course);
-        for (int i = 0; i < 3; i++){
-            printf("%d %f\n", result[i].sid, result[i].score);
-        }
-        printf("\n");
-
         output(course, fdOutput, result);
     }
 
