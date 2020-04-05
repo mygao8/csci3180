@@ -1,8 +1,16 @@
       ******************************************************************
-      * Author:
-      * Date:
-      * Purpose:
-      * Tectonics: cobc
+      * CSCI3180 Principles of Programming Languages
+      * --- Declaration ---
+      * I declare that the assignment here submitted is original except for source
+      * material explicitly acknowledged. I also acknowledge that I am aware of
+      * University policy and regulations on honesty in academic work, and of the
+      * disciplinary guidelines and procedures applicable to breaches of such policy
+      * and regulations, as contained in the website
+      * http://www.cuhk.edu.hk/policy/academichonesty
+      * Assignment 1
+      * Name : GAO Ming Yuan
+      * Student ID : 1155107738
+      * Email Addr : 1155107738@link.cuhk.edu.hk
       ******************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. TA-RANKING.
@@ -16,7 +24,7 @@
            SELECT OPTIONAL INPUT-CANDIDATE ASSIGN TO 'candidates.txt'
              ORGANIZATION IS LINE SEQUENTIAL
              FILE STATUS IS INPUT-CANDIDATE-STATUS.
-           SELECT OUTPUT-FILE ASSIGN TO 'output1.txt'
+           SELECT OUTPUT-FILE ASSIGN TO 'output.txt'
              ORGANIZATION IS BINARY SEQUENTIAL.
 
        DATA DIVISION.
@@ -42,7 +50,7 @@
            03 RANK1 PIC X(11).
            03 RANK2 PIC X(11).
            03 RANK3 PIC X(11).
-           03 EOL PIC X.
+           03 MY-EOL PIC X.
 
        WORKING-STORAGE SECTION.
        77 INPUT-INSTRUCTOR-STATUS PIC 9(2).
@@ -242,7 +250,7 @@
            MOVE WS-RES-SID(1) TO RANK1.
            MOVE WS-RES-SID(2) TO RANK2.
            MOVE WS-RES-SID(3) TO RANK3.
-           MOVE x'0a' TO EOL.
+           MOVE x'0a' TO MY-EOL.
            WRITE RANK-RESULT
            END-WRITE.
 
